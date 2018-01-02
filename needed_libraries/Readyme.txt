@@ -1,0 +1,5 @@
+Please copy those libraries to local arduino libraries folder (e.g C:\Users\mmmedia\Documents\Arduino\libraries).
+
+The ESP8266-core Version was 2.3.0 - and all ESP12F-relevant libraries are stored there. No need to change or add somethign there...
+If you think, I2C is too slow with 100khz . you can speed it up: Set   twi_setClock(400000); in the core_esp8266_si2c.c line 72.
+My path to this was C:\Users\mmmedia\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266, so just find yours :P
