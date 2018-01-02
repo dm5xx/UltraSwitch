@@ -1,0 +1,66 @@
+﻿body {
+	background-color:#000000;
+} 
+
+#container {
+	width:100%; 
+	height:auto;
+	border-left: 1px solid #5DA8FC;
+	border-top: 1px solid #5DA8FC;
+	border-right: 1px solid #5DA8FC;
+	display:inline-block; 
+}
+
+.myLast {
+	border-bottom: 1px solid #5DA8FC;
+}
+
+
+.rounded-corners {
+     -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.bon {
+	background-color: #1B8500;
+	color: white;
+}
+
+.boff {
+	background-color: #454545;
+	color: #FFD000;
+}
+
+.relayButton {
+	display:inline-block; 
+	box-shadow: 0px 0px 10px 2px #aaaaaa;
+	float:left; 
+	width:150px; 
+	height:100px; 
+	margin:11px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 100px;
+	font-weight: bold;
+	font-size:1.2em;
+	font-family: arial;
+	cursor:pointer;
+}
+
+.relayButton:hover {
+	background-color: #3D699C;
+}
+
+.rotate {
+	display: block;
+	font-weight: bold;
+	font-size:2em;
+	font-family: arial;
+	line-height: 50px;
+	margin-top: 2px;
+	margin-left: 10px;
+	color: white;
+	width: 200px;
+}
