@@ -46,13 +46,19 @@ function init(){
 function createButtonVars(j)
 {
 	for(var a = 0; a <=j; a++)
-		for(var i = 0; i < 16 ; i++)
-			window["but_"+a+'_'+i] = window["board"+a+"Status"][i];
+	{
+		var nrRelayPerBoard = numberOfRelaysPerBoard[a];
+
+		for(var i = 0; i < nrRelayPerBoard ; i++)
+			window["but_"+a+'_'+i] = window["board"+a+"Status"][i];		
+	}
 }
 
 function createBoards(boardnumber)
 {		
-	for(var i = 0; i < 16; i++)
+	var nrRelayPerBoard = numberOfRelaysPerBoard[boardnumber];
+
+	for(var i = 0; i < nrRelayPerBoard; i++)
 	{
 		var e = $('<div class="relayButton" onClick=switchRelay('+boardnumber+','+i+') onmouseover="mouseIsOver()" onmouseout="mouseIsOut()">'+eval('textboard'+boardnumber+'['+i+']')+'</div>');
 		var buttonname = 'b_'+boardnumber+'_'+i;
@@ -99,7 +105,9 @@ function switchRelay(boardnr, pin)
 
 			var stringForNumber = "";
 
-			for(var a = 15; a >= 0; a--)
+			var nrRelayPerBoard = numberOfRelaysPerBoard[boardnr]-1;
+
+			for(var a = nrRelayPerBoard; a >= 0; a--)
 				stringForNumber = stringForNumber + window["board"+boardnr+"Status"][a]
 			
 			var representation = parseInt(stringForNumber,2);
@@ -228,7 +236,9 @@ function setAllContent(currentboard, representation) {
 
 function reloadBoard(aboardnumber)
 {
-	for(var i = 0; i < 16; i++)
+	var nrRelayPerBoard = numberOfRelaysPerBoard[aboardnumber];
+
+	for(var i = 0; i < nrRelayPerBoard; i++)
 	{
 		var buttonname = 'b_'+aboardnumber+'_'+i;		
 		var currentButtonValue = eval('but_'+aboardnumber+'_'+i);

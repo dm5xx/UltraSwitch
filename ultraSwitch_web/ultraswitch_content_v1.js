@@ -51,4 +51,4 @@ var textboard7 = ["Port 0","Port 1","Port 2","Port 3","Port 4","Port 5","Port 6"
 var board7Status = [];
 var board7Group = [[0,1,2,3],[6,7,8],[9,10,11],[12,13]];
 
-
+var numberOfRelaysPerBoard = [14,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16];
