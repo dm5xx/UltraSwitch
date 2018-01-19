@@ -376,7 +376,6 @@ customUrl = String(buf);
 contentUrl = _co.toString();
 
 
-
 ///EMERGENCY Part
 /*
 numberOfRelayBoards = 2;
@@ -387,28 +386,40 @@ int _strLen = 14;
 */
 
 #ifdef DEBUG
-Serial.print("IP: ");
-Serial.println(_ip.toString());
+  Serial.print("IP: ");
+  Serial.println(_ip.toString());
 
-Serial.print("GW: ");
-Serial.println(_gw.toString());
+  Serial.print("GW: ");
+  Serial.println(_gw.toString());
 
-Serial.print("CO: ");
-Serial.println(contentUrl);
+  Serial.print("CO: ");
+  Serial.println(contentUrl);
 
-Serial.print("Boards: ");
-Serial.println(numberOfRelayBoards);
+  Serial.print("Boards: ");
+  Serial.println(numberOfRelayBoards);
 
-Serial.print("Länge: ");
-Serial.println(_strLen);
+  Serial.print("Länge: ");
+  Serial.println(_strLen);
 
-Serial.print("CustomURL: ");
-Serial.println(customUrl);
+  Serial.print("CustomURL: ");
+  Serial.println(customUrl);
 #endif
 
 EEPROM.end();
 
-mywifiManager.setSTAStaticIPConfig(_ip, _gw, _sn);
+//Uncomment below to reset saved settings => Something went wrong while wifi configuration...
+//mywifiManager.resetSettings();
+
+delay(100);
+
+if((_ip[0] == 192 && _ip[1] == 168) || (_ip[0] == 10) || (_ip[0] == 172 && _ip[1] > 15 && _ip[1] < 32))
+  mywifiManager.setSTAStaticIPConfig(_ip, _gw, _sn);
+else
+{
+  customUrl = "127.0.0.1";
+  contentUrl = "31.31.231.42";
+  numberOfRelayBoards = 1;
+}
 mywifiManager.autoConnect();
 
   for (int a = 0; a < 16; a++)
@@ -445,9 +456,8 @@ mywifiManager.autoConnect();
   server.begin();
 
 #ifdef DEBUG
-  Serial.print("Open http://");
+  Serial.print("ESP-IP: ");
   Serial.print(WiFi.localIP());
-  Serial.println("/ in your browser to see it working");
 #endif
 }
 
