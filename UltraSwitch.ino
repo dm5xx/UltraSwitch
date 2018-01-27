@@ -7,7 +7,7 @@
 #include "ArduinoJson.h"
 #include "WiFiManager.h"
 
-//#define DEBUG
+#define DEBUG
 
 byte numberOfRelayBoards = 2;
 String customUrl;
