@@ -1,0 +1,26 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version|0.18t|$
+Arch|x86_64-msvc|$
+
+[PLUGINS]
+NPSWF64_29_0_0_140.dll|$
+C:\WINDOWS\system32\Macromed\Flash\NPSWF64_29_0_0_140.dll|$
+29.0.0.140|$
+1523807141562|0|0|0|$
+Shockwave Flash 29.0 r0|$
+Shockwave Flash|$
+2
+0|application/x-shockwave-flash|Adobe Flash movie|swf|$
+1|application/futuresplash|FutureSplash movie|spl|$
+
+[INVALID]
+C:\WINDOWS\SysWOW64\npmproxy.dll|$
+1506692542346|$
+C:\WINDOWS\SysWOW64\NPSM.dll|$
+1506692531626|$
+C:\WINDOWS\SysWOW64\NPSMDesktopProvider.dll|$
+1506692529688|$
+C:\WINDOWS\SysWOW64\npffax.dll|$
+1387543198000|$
