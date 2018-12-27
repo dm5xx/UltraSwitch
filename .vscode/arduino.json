@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-    "port": "COM3",
-=======
-    "port": "COM13",
->>>>>>> master
+    "port": "COM5",
     "board": "esp8266:esp8266:d1_mini",
     "configuration": "CpuFrequency=80,FlashSize=4M3M,LwIPVariant=v2mss536,Debug=Disabled,DebugLevel=None____,UploadSpeed=921600",
     "sketch": "UltraSwitch.ino"

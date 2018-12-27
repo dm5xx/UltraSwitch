@@ -1,3 +1,6 @@
+// cc by DM5XX @ GNU GPLv3
+// LLAP! 
+
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <DNSServer.h>
@@ -9,7 +12,7 @@
 
 #define DEBUG
 
-byte numberOfRelayBoards = 2;
+byte numberOfRelayBoards = 1;
 String customUrl;
 String contentUrl;
 
@@ -337,8 +340,8 @@ void setup() {
   Serial.begin(115200);
 #endif
 
-IPAddress _ip = IPAddress(192, 168, 1, 112);
-IPAddress _gw = IPAddress(192, 168, 1, 40);
+IPAddress _ip = IPAddress(192, 168, 0, 5);
+IPAddress _gw = IPAddress(192, 168, 0, 1);
 IPAddress _co = IPAddress(31, 31, 231, 42);
 IPAddress _sn = IPAddress(255, 255, 255, 0);
 
