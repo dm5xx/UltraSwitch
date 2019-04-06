@@ -8,7 +8,12 @@
 #include <EEPROM.h>
 #include "Adafruit_MCP23017.h"
 #include "ArduinoJson.h"
-#include "WiFiManager.h"
+
+//#define WFM
+
+#ifdef WFM
+  #include "WiFiManager.h"
+#endif
 
 #define DEBUG
 
@@ -17,7 +22,13 @@ String customUrl;
 String contentUrl;
 
 ESP8266WebServer server(80);
-WiFiManager mywifiManager;
+
+#ifdef WFM
+  WiFiManager mywifiManager;
+#else
+  const char* ssid = "mmmedia";
+  const char* password = "tp4004mmatrixx6";
+#endif
 
 byte pinsOrder[16] = { 0,8,1,9,2,10,3,11,4,12,5,13,6,14,7,15 };
 
@@ -29,29 +40,9 @@ struct RelayCard
   byte pinStatus[16];
 };
 
-const char MAIN_page0[] PROGMEM = R"=====(
-  <!DOCTYPE html>
-  <HTML>
-  <HEAD>
-      <meta http-equiv="Cache-control" content="no-cache"><meta http-equiv="Expires" content="0">
-      <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-      <script>
-)=====";
-const char MAIN_page1[] PROGMEM = R"=====(
-      </script>
-      <script src="http://h.mmmedia-online.de/ultraswitch_v1.js"></script>
-)=====";
-const char MAIN_page2[] PROGMEM = R"=====(      
-      <link rel="shortcut icon" href="http://h.mmmedia-online.de/favicon.ico">
-      <TITLE>RemoteQth UltraSwitch</TITLE>
-  </HEAD>
-  <BODY>
-      <div id="content"></div>
-      <script>addContent();</script>
-  </BODY>
-  </HTML>
-  )=====";
-
+String MAIN_page0 = "<!DOCTYPE html><HTML><HEAD><meta http-equiv=\"Cache-control\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\"><script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.11.2.min.js\"></script><script>";
+String MAIN_page1 = "</script><script src=\"http://h.mmmedia-online.de/ultraswitch_v1.js\"></script>";
+String MAIN_page2 = "<link rel=\"shortcut icon\" href=\"http://h.mmmedia-online.de/favicon.ico\"><TITLE>RemoteQth UltraSwitch</TITLE></HEAD><BODY><div id=\"content\"></div><script>addContent();</script></BODY></HTML>";
 
 /////////////////// DONT USE NESTES CLASSES! SPLIT IT INTO .h and .cpp - But for tutorial reasons, its done inline /////////////
 class CustomRelayHandler : public RequestHandler {
@@ -321,17 +312,17 @@ RelayCard relayArray[8];
 CustomRelayHandler mmm;
 
 void handleRoot() {
-  String s1 = MAIN_page0; //Read HTML contents
+  //String s1 = MAIN_page0; //Read HTML contents
   String v1 = "var configAddress='http://"+customUrl+"';";
   String v2 = "var numberOfRelayBoards="+String(numberOfRelayBoards)+";";
   
 
-  String s2 = MAIN_page1; //Read HTML contents
+  //String s2 = MAIN_page1; //Read HTML contents
   String v3 = "<script src=\"http://"+contentUrl+"/h/ultraswitch_content_v1.js\"></script>";
   String v4 = "<link rel=\"Stylesheet\" href=\"http://"+contentUrl+"/h/ultraswitch_v1.css\" type=\"text/css\">";
-  String s3 = MAIN_page2; //Read HTML contents
+  //String s3 = MAIN_page2; //Read HTML contents
   
-  server.send(200, "text/html", s1+v1+v2+s2+v3+v4+s3); //Send web page
+  server.send(200, "text/html", MAIN_page0+v1+v2+MAIN_page1+v3+v4+MAIN_page2); //Send web page
 }
 
 void setup() {
@@ -344,6 +335,22 @@ IPAddress _ip = IPAddress(192, 168, 0, 5);
 IPAddress _gw = IPAddress(192, 168, 0, 1);
 IPAddress _co = IPAddress(31, 31, 231, 42);
 IPAddress _sn = IPAddress(255, 255, 255, 0);
+
+#ifndef WFM
+  WiFi.begin(ssid, password);
+  Serial.println("");
+
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+#endif
 
 EEPROM.begin(4095);
 
@@ -416,14 +423,21 @@ EEPROM.end();
 delay(100);
 
 if((_ip[0] == 192 && _ip[1] == 168) || (_ip[0] == 10) || (_ip[0] == 172 && _ip[1] > 15 && _ip[1] < 32))
-  mywifiManager.setSTAStaticIPConfig(_ip, _gw, _sn);
+{
+  #ifdef WFM
+    mywifiManager.setSTAStaticIPConfig(_ip, _gw, _sn);
+  #endif
+}
 else
 {
   customUrl = "127.0.0.1";
   contentUrl = "31.31.231.42";
   numberOfRelayBoards = 1;
 }
-mywifiManager.autoConnect();
+
+#ifdef WFM
+  mywifiManager.autoConnect();
+#endif
 
   for (int a = 0; a < 16; a++)
   {
