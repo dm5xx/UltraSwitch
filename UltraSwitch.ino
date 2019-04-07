@@ -9,13 +9,14 @@
 #include "Adafruit_MCP23017.h"
 #include "ArduinoJson.h"
 
-//#define WFM
+#define WFM //use WifiManager
 
 #ifdef WFM
   #include "WiFiManager.h"
 #endif
 
-#define DEBUG
+//#define DEBUG
+//#define SIP // Use staic IP. definition is around row 335
 
 byte numberOfRelayBoards = 1;
 String customUrl;
@@ -26,8 +27,8 @@ ESP8266WebServer server(80);
 #ifdef WFM
   WiFiManager mywifiManager;
 #else
-  const char* ssid = "mmmedia";
-  const char* password = "tp4004mmatrixx6";
+  const char* ssid = "SSID";
+  const char* password = "PASSWORD";
 #endif
 
 byte pinsOrder[16] = { 0,8,1,9,2,10,3,11,4,12,5,13,6,14,7,15 };
@@ -331,14 +332,21 @@ void setup() {
   Serial.begin(115200);
 #endif
 
-IPAddress _ip = IPAddress(192, 168, 0, 5);
-IPAddress _gw = IPAddress(192, 168, 0, 1);
+IPAddress _ip = IPAddress(192, 168, 1, 55);
+IPAddress _gw = IPAddress(192, 168, 1, 40);
 IPAddress _co = IPAddress(31, 31, 231, 42);
 IPAddress _sn = IPAddress(255, 255, 255, 0);
 
 #ifndef WFM
+
+
   WiFi.begin(ssid, password);
   Serial.println("");
+
+  #ifdef SIP
+     Serial.println("SIP");
+     WiFi.config(_ip, _gw, _sn);
+  #endif
 
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
