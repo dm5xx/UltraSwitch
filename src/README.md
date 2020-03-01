@@ -1,7 +1,7 @@
 # Firmware for the UltraSwitch Project of http://www.remoteQTH.com
 This is the firmware for the remoteQth.com Ultraswitch 
 If you need help, feel free to contact DM5XX@gmx.de
-Sketch is developed with PlatformIO
+Sketch is developed with IDE Version 1.8 and later (using Visual Micro)
 
 The idea:
 Inspired from the megawebswitch project, which is a really powerful way to switch 63 sources (with on/off-Switches, grouped switches, latched switching with configurable time, switching restirctions and configurable excludes - using SD-Card for configuration), the ultraswitch was born.

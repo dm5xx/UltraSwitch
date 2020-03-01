@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <meta http-equiv="Cache-control" content="no-cache"><meta http-equiv="Expires" content="0">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script>
+
+function callConfig()
+{
+    var curip = document.getElementById("curip").value;
+    var ip = document.getElementById("ip").value;
+    var gwip = document.getElementById("gw").value;
+    var contentip = document.getElementById("co").value;
+    var nrboards = document.getElementById("bo").value;
+    var dyndns = document.getElementById("dyndns").value;
+
+    if(!ipOK(curip))
+        curip = "192.168.1.111";
+    if(!ipOK(ip))
+        ip = "192.168.1.111";
+
+    if(!ipOK(gwip))
+        gwip = "192.168.1.40";
+
+    if(!ipOK(contentip))
+        contentip = "31.31.231.42";
+    
+    if(nrboards < 1 || nrboards > 8)
+        nrboards = 1;
+    
+    if(!dynOK(dyndns))
+        dyndns = ip;
+
+    window.open("http://"+curip+'/'+'SetConfig/'+ip+'/'+gwip+'/'+contentip+'/'+nrboards+'/'+dyndns);
+}
+
+function ipOK(ip_string)
+{
+    var splitted = ip_string.split();
+
+    for(var i =0; i < splitted.length; i++)
+    {
+        if(splitted[i] < 1 || splitted[i] > 254)
+            return false;
+    }
+    return true;
+}
+
+function dynOK(ip_string)
+{
+    var splitted = ip_string.split();
+
+    if(splitted.length == 3)
+        return true;
+    return false;
+}
+
+
+
+    </script>
+    <TITLE>CONFIG UltraSwitch</TITLE>
+</HEAD>
+<BODY>
+
+<form onsubmit="return callConfig()">
+    <h1>Welcome to the quick n diry configurator for the UltraSwitch device. Please read the manual before proceeding...</h1></br></br>
+   <div>(0) Current IP-Adress of the Controller e.g. 192.168.1.111 (no spaces, "."-separated) ---> <input type="text" id="curip" size="30" placeholder="Current_IP_Address of RelayController"></div></br>
+   <div>(1) IP-Adress of the Controller e.g. 192.168.1.111 (no spaces, "."-separated) ---> <input type="text" id="ip" size="30" placeholder="IP_Address of RelayController"></div></br>
+   <div>(2) IP-Adress of your Internet-Gateway(router) e.g. 192.168.1.44 (no spaces, "."-separated) ---> <input type="text" id="gw" size="30" placeholder="IP_Gateway"></div></br>
+   <div>(3) IP-Adress to your js and css (ultraswitch_js/content/...) files e.g. 31.31.231.42 (no spaces, "."-separated) ---> <input type="text" id="co" size="30" value="31.31.231.42"></div></br>
+   <div>(4) How many RelayBoards do u want to use? e.g. 2 ---> <input type="text" id="bo" size="5" placeholder="Boards"></div></br>
+   <div>(5) DynDNS-Url for RemoteControl e.g. dmx55.dyndns.org or 192.168.1.111 (no spaces, "."-separated)</br>PLEASE USE UR CONTROLLERS IP (1) IF YOU DONT USE DYNDNS! ---> <input type="text" id="dyndns" size="30" placeholder="DynDNS to Portforward/Ownip of RelayController"></div></br></br>
+   <h2>BE CAREFUL WHAT YOU DO!! DOUBLECHECK TWICE BEFORE CLICKING SUBMIT :P</h2></br></br>
+   <input id="submitBtn" type="submit" name="submit" value="Submit">
+</form>  
+</BODY>
+</HTML>
