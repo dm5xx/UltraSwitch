@@ -9,7 +9,7 @@
 #include "Adafruit_MCP23017.h"
 #include "ArduinoJson.h"
 
-//#define WFM //use WifiManager: If a wifi is out of range/disconnected, system will fall back to Accesspoint Mod eto be configrued again. So better dont use this..
+#define WFM //use WifiManager
 
 #ifdef WFM
   #include "WiFiManager.h"
@@ -24,14 +24,12 @@ String contentUrl;
 
 ESP8266WebServer server(80);
 
-// ************************************************************************* INSERT YOUR SSID/PWD HERE ********************************************************
 #ifdef WFM
   WiFiManager mywifiManager;
 #else
-  const char* ssid = "mmmedia";
-  const char* password = "tp4004mmatrixx6";
+  const char* ssid = "SSID";
+  const char* password = "PASSWORD";
 #endif
-// *******************************************************************************************************************************************************
 
 byte pinsOrder[16] = { 0,8,1,9,2,10,3,11,4,12,5,13,6,14,7,15 };
 
@@ -247,7 +245,6 @@ public:
       EEPROM.commit();
       EEPROM.end();
 
-      server.sendHeader("Access-Control-Allow-Origin", "*");
       server.send(200, "application/json", "{\"Config_Set_Reboot\" : \"OK\"}");
       delay(1000);
       ESP.restart();
@@ -272,7 +269,6 @@ public:
       jroot["M"] = ESP.getFreeHeap();
 
       jroot.printTo(bufferStatus);
-      server.sendHeader("Access-Control-Allow-Origin", "*");
       server.send(200, "application/json", bufferStatus);
     }
 
@@ -286,7 +282,7 @@ public:
         _cards[b].mcp.digitalWrite(_cards[b].pins[a], HIGH); 
       }  
     }
-    server.sendHeader("Access-Control-Allow-Origin", "*");
+
     server.send(200, "application/json", "{\"Reset\" : \"OK\"}");
    }
 
@@ -333,7 +329,6 @@ void handleRoot() {
   String v4 = "<link rel=\"Stylesheet\" href=\"http://"+contentUrl+"/h/ultraswitch_v1.css\" type=\"text/css\">";
   //String s3 = MAIN_page2; //Read HTML contents
   
-  server.sendHeader("Access-Control-Allow-Origin", "*");
   server.send(200, "text/html", MAIN_page0+v1+v2+MAIN_page1+v3+v4+MAIN_page2); //Send web page
 }
 
@@ -350,9 +345,7 @@ IPAddress _sn = IPAddress(255, 255, 255, 0);
 
 #ifndef WFM
 
-    Serial.println(ssid);
-    Serial.println(password);
-     
+
   WiFi.begin(ssid, password);
   Serial.println("");
 
@@ -502,14 +495,5 @@ else
 }
 
 void loop() {
-
-  int wifi_retry = 0;
-  while(WiFi.status() != WL_CONNECTED) { 
-      delay(100);
-      Serial.println("ESP REBOOT ESP REBOOT"); 
-      Serial.println("\nReboot");
-      ESP.restart();
-  }
-  
   server.handleClient();
 }
