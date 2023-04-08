@@ -1,3 +1,5 @@
+# END OF LIFECYCLE - END OF LIFECYCLE - END OF LIFECYLCE => visit http://www.remoteswitch.de
+
 # Firmware for the UltraSwitch Project of http://www.remoteQTH.com
 This is the firmware for the remoteQth.com Ultraswitch 
 If you need help, feel free to contact DM5XX@gmx.de
